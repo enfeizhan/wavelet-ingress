@@ -1,10 +1,24 @@
 
-
 # How to use
 
-* Put your raw data files in a subdirectory named data/
-* run `docker-compose up`
-* Add more files to data/ subdirectory to import them
+Run on your workstation, or on a cloud instance
+
+# First time startup
+
+* `make setup`
+* Add data files to data/ subdirectory to import them
+
+# Subsequent startup
+
+* run `make start`
+
+# Shutdown
+
+* run `make stop`
+
+# Wiping
+
+* run `make nuke`
 
 
 

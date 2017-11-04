@@ -42,4 +42,4 @@ services:
       - logstash
     volumes:
       - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - ./:/data
+      - ./data:/data

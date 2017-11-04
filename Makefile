@@ -23,4 +23,6 @@ setup:  config
 	for s in scripts/* ; do echo "Executing $$s"; $$s ; echo ""; done
 	@echo "Starting logstash and filebeat to populate sample index"
 	docker-compose up -d logstash filebeat
-	@echo "Now open http://elastic:changeme@localhost:5601/ and configure index pattern sample-*"
+	@[ -d data ] || mkdir data
+	@echo "First drop one or more CSV files into data/"
+	@echo "Next open http://elastic:changeme@localhost:5601/ and configure index pattern sample-*"

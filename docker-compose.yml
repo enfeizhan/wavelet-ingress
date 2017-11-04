@@ -1,0 +1,45 @@
+#
+#  Run the playbook data pipeline on a workstation
+#
+version: "3"
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.0
+    ports:
+      - 9200:9200
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:5.5.0
+    links:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    #volumes:
+    #  - ./kibana-conf/kibana.yml:/usr/share/kibana/config/kibana.yml
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash:5.6.3
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200/
+      - ELASTICSEARCH_USER=elastic
+      - ELASTICSEARCH_PASSWORD=changeme
+    # NOTE: comment volumes for deploy, use config inside container
+    volumes:
+      - $PWD/logstash-conf/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - $PWD/logstash-conf/conf.d/:/usr/share/logstash/pipeline
+    ports:
+      - "5044:5044"
+    links:
+      - elasticsearch
+  filebeat:
+    container_name: filebeat
+    image: docker.elastic.co/beats/filebeat:5.6.3
+    links:
+      - logstash
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./:/data

@@ -1,0 +1,6 @@
+filebeat.prospectors:
+  - input_type: log
+    paths:
+      - /data/raw*.csv
+output.logstash:
+  hosts: ["logstash:5044"]    

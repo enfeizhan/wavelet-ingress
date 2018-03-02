@@ -41,5 +41,5 @@ services:
     links:
       - logstash
     volumes:
-      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - ./data:/data
+      - $PWD/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - $PWD/data:/data
